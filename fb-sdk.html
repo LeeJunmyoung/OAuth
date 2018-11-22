@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <input
+      type="button"
+      value="checking"
+      id="authBtn"
+      onclick="clicked(this)"
+    />
+    <script>
+      const clicked = button => {
+        console.log(button);
+        if (button.value === "LogIn") {
+          FB.login(function(response) {
+            location.reload();
+          });
+        } else {
+          FB.logout(function(response) {
+            location.reload();
+          });
+        }
+      };
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: "1158643914286714",
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: "v3.2"
+        });
+        FB.getLoginStatus(function(response) {
+          console.log(response);
+          //FB.logout();
+          if (response.status === "connected") {
+            document.querySelector("#authBtn").value = "Logout";
+          } else {
+            document.querySelector("#authBtn").value = "LogIn";
+          }
+        }, true);
+      };
+
+      (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    </script>
+  </body>
+</html>
